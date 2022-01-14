@@ -1,32 +1,18 @@
 <template>
-  <div>test vue</div>
+  <div>
+    <h1>binding test {{ title }}</h1>
+    <div>
+      <input v-model="title" />
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-  beforeCreate() {
-    console.log('beforeCreate')
-  },
-  created() {
-    console.log('created')
-  },
-  beforeMount() {
-    console.log('beforeMount')
-  },
-  mounted() {
-    console.log('mounted')
-  },
-  beforeUpdate() {
-    console.log('beforeUpdate')
-  },
-  updated() {
-    console.log('updated')
-  },
-  beforeDestroy() {
-    console.log('beforeDestroy')
-  },
-  destroyed() {
-    console.log('destroyed')
+  data() {
+    return {
+      title: ''
+    }
   }
 }
 </script>
