@@ -1,8 +1,11 @@
 <template>
   <div>
-    <h1>binding test {{ title }}</h1>
+    <h1>binding test</h1>
+    <div>영문: <input v-model="engText" /></div>
+    <div>한글: <input v-model="korText" @input="typingKor" /></div>
     <div>
-      <input v-model="title" />
+      <h3>바인딩 영문: {{ engText }}</h3>
+      <h3>바인딩 한글: {{ korText }}</h3>
     </div>
   </div>
 </template>
@@ -11,7 +14,13 @@
 export default {
   data() {
     return {
-      title: ''
+      engText: '',
+      korText: ''
+    }
+  },
+  methods: {
+    typingKor(e) {
+      this.korText = e.target.value
     }
   }
 }
