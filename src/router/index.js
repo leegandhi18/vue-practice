@@ -32,6 +32,11 @@ const routes = [
     path: '/test-computed',
     name: 'TestComputed',
     component: () => import('../views/TestComputed.vue')
+  },
+  {
+    path: '/test-condition',
+    name: 'TestCondition',
+    component: () => import('../views/TestCondition.vue')
   }
 ]
 
