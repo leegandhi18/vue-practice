@@ -37,6 +37,11 @@ const routes = [
     path: '/test-condition',
     name: 'TestCondition',
     component: () => import('../views/TestCondition.vue')
+  },
+  {
+    path: '/test-loop',
+    name: 'TestLoop',
+    component: () => import('../views/TestLoop.vue')
   }
 ]
 
