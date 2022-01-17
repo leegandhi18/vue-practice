@@ -58,6 +58,10 @@ const routes = [
     component: () => import('../views/comp') // 호출되는 파일이 index.vue인 경우에는 파일명을 생략할 수 있다.
   },
   {
+    path: '/test-family/props',
+    component: () => import('../views/family/props/Parent.vue')
+  },
+  {
     path: '*', // NotFound 설정을 위한 path('*')는 반드시 맨 하단에 위치 해야 한다.
     component: () => import('../components/NotFound.vue')
   }
