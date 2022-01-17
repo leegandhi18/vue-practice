@@ -66,6 +66,10 @@ const routes = [
     component: () => import('../views/family/emit/Parent.vue')
   },
   {
+    path: '/test-family/event-bus',
+    component: () => import('../views/family/eventBus/Parent.vue')
+  },
+  {
     path: '*', // NotFound 설정을 위한 path('*')는 반드시 맨 하단에 위치 해야 한다.
     component: () => import('../components/NotFound.vue')
   }
