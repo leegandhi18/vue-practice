@@ -47,6 +47,11 @@ const routes = [
     path: '/test-mixin',
     name: 'TestMixin',
     component: () => import('../views/TestMixin.vue')
+  },
+  {
+    path: '/test-bootstrap',
+    name: 'TestBootstrap',
+    component: () => import('../views/TestBootstrap.vue')
   }
 ]
 
