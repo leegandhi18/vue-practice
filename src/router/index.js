@@ -52,6 +52,10 @@ const routes = [
     path: '/test-bootstrap',
     name: 'TestBootstrap',
     component: () => import('../views/TestBootstrap.vue')
+  },
+  {
+    path: '/test-comp',
+    component: () => import('../views/comp') // 호출되는 파일이 index.vue인 경우에는 파일명을 생략할 수 있다.
   }
 ]
 
