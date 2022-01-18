@@ -12,6 +12,22 @@ const routes = [
       {
         path: '/home',
         component: () => import('../views/Home.vue')
+      },
+      {
+        path: '/dashboard',
+        component: () => import('../views/dashboard')
+      },
+      {
+        path: '/department',
+        component: () => import('../views/department')
+      },
+      {
+        path: '/user',
+        component: () => import('../views/user')
+      },
+      {
+        path: '/device',
+        component: () => import('../views/device')
       }
     ]
   },
