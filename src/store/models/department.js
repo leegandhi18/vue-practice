@@ -18,6 +18,7 @@ export default {
     Department: { ...stateInit.Department },
     InsertedResult: null, // 입력처리 후 결과
     UpdatedResult: null, // 수정처리 후 결과
+    DeletedResult: null, // 삭제처리 후 결과
     InputMode: null // 입력모드(등록: insert, 수정: update)
   },
   getters: {
@@ -25,6 +26,7 @@ export default {
     Department: state => state.Department,
     DepartmentInsertedResult: state => state.InsertedResult,
     DepartmentUpdatedResult: state => state.UpdatedResult,
+    DepartmentDeletedResult: state => state.DeletedResult,
     DepartmentInputMode: state => state.InputMode
   },
   mutations: {
@@ -39,6 +41,9 @@ export default {
     },
     setUpdatedResult(state, data) {
       state.UpdatedResult = data
+    },
+    setDeletedResult(state, data) {
+      state.DeletedResult = data
     },
     setInputMode(state, data) {
       state.InputMode = data
@@ -134,6 +139,25 @@ export default {
       api.put('/serverApi/departments/${payload}').then(response => {
         const updatedResult = response && response.updatedCount
         context.commit('setUpdatedResult', updatedResult)
+      })
+      */
+    },
+    // 부서 삭제
+    actDepartmentDelete(context, payload) {
+      // 상태값 초기화
+      context.commit('setDeletedResult', null)
+
+      /* 테스트 데이터 세팅 */
+      setTimeout(() => {
+        const deletedResult = 1
+        context.commit('setDeletedResult', deletedResult)
+      }, 300) // state값의 변화를 감지하기 위하여 일부러 지연 시켰다.
+
+      /* RestAPI 호출 */
+      /*
+      api.delete('/serverApi/departments/${payload}').then(response => {
+        const deletedResult = response && response.deletedCount
+        context.commit('setDeletedResult', deletedResult)
       })
       */
     }

@@ -19,6 +19,9 @@
         <template #cell(updateBtn)="row">
           <b-button size="sm" variant="success" @click="onClickEdit(row.item.id)">수정</b-button>
         </template>
+        <template #cell(deleteBtn)="row">
+          <b-button size="sm" variant="danger" @click="onClickDelete(row.item.id)">삭제</b-button>
+        </template>
       </b-table>
     </div>
 
@@ -41,7 +44,8 @@ export default {
         { key: 'name', label: '부서명' },
         { key: 'code', label: '부서코드' },
         { key: 'createdAt', label: '생성일' },
-        { key: 'updateBtn', label: '수정' }
+        { key: 'updateBtn', label: '수정' },
+        { key: 'deleteBtn', label: '삭제' }
       ]
     }
   },
@@ -54,6 +58,9 @@ export default {
     },
     updatedResult() {
       return this.$store.getters.DepartmentUpdatedResult
+    },
+    deletedResult() {
+      return this.$store.getters.DepartmentDeletedResult
     }
   },
   watch: {
@@ -107,6 +114,31 @@ export default {
           })
         }
       }
+    },
+    deletedResult(value) {
+      // 삭제 후 처리
+      if (value !== null) {
+        if (value > 0) {
+          // 삭제가 성공한 경우
+
+          // 1. 메세지 출력
+          this.$bvToast.toast('삭제 되었습니다.', {
+            title: 'SUCCESS',
+            variant: 'success',
+            solid: true
+          })
+
+          // 2. 리스트 재 검색
+          this.searchDepartmentList()
+        } else {
+          // 삭제가 실패한 경우
+          this.$bvToast.toast('삭제가 실패하였습니다.', {
+            title: 'ERROR',
+            variant: 'danger',
+            solid: true
+          })
+        }
+      }
     }
   },
   created() {
@@ -139,6 +171,14 @@ export default {
 
       // 3. 모달 출력
       this.$bvModal.show('modal-department-inform')
+    },
+    onClickDelete(id) {
+      // 삭제
+      this.$bvModal.msgBoxConfirm('삭제 하시겠습니까?').then(value => {
+        if (value) {
+          this.$store.dispatch('actDepartmentDelete', id)
+        }
+      })
     }
   }
 }
