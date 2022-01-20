@@ -12,7 +12,14 @@
       </b-row>
     </div>
     <div>
-      <b-table small hover striped :items="departmentList" :fields="fields"></b-table>
+      <b-table small hover striped :items="departmentList" :fields="fields">
+        <template #cell(createdAt)="row">
+          {{ row.item.createdAt.substring(0, 10) }}
+        </template>
+        <template #cell(updateBtn)="row">
+          <b-button size="sm" variant="success" @click="onClickEdit(row.item.id)">수정</b-button>
+        </template>
+      </b-table>
     </div>
 
     <!-- inform 영역 -->
@@ -33,7 +40,8 @@ export default {
         { key: 'id', label: 'id' },
         { key: 'name', label: '부서명' },
         { key: 'code', label: '부서코드' },
-        { key: 'createdAt', label: '생성일' }
+        { key: 'createdAt', label: '생성일' },
+        { key: 'updateBtn', label: '수정' }
       ]
     }
   },
@@ -43,11 +51,15 @@ export default {
     },
     insertedResult() {
       return this.$store.getters.DepartmentInsertedResult
+    },
+    updatedResult() {
+      return this.$store.getters.DepartmentUpdatedResult
     }
   },
   watch: {
     insertedResult(value) {
       // 등록 후 처리
+
       if (value !== null) {
         if (value > 0) {
           // 등록이 성공한 경우
@@ -70,6 +82,31 @@ export default {
           })
         }
       }
+    },
+    updatedResult(value) {
+      // 수정 후 처리
+      if (value !== null) {
+        if (value > 0) {
+          // 수정이 성공한 경우
+
+          // 1. 메세지 출력
+          this.$bvToast.toast('수정 되었습니다.', {
+            title: 'SUCCESS',
+            variant: 'success',
+            solid: true
+          })
+
+          // 2. 리스트 재 검색
+          this.searchDepartmentList()
+        } else {
+          // 수정이 실패한 경우
+          this.$bvToast.toast('수정이 실패하였습니다.', {
+            title: 'ERROR',
+            variant: 'danger',
+            solid: true
+          })
+        }
+      }
     }
   },
   created() {
@@ -81,7 +118,27 @@ export default {
     },
     onClickAddNew() {
       // 신규등록
-      this.$bvModal.show('modal-department-inform') // 모달을 띄운다.
+
+      // 1. 입력모드 설정
+      this.$store.dispatch('actDepartmentInputMode', 'insert')
+
+      // 2. 상세정보 초기화
+      this.$store.dispatch('actDepartmentInit')
+
+      // 3. 모달 출력
+      this.$bvModal.show('modal-department-inform')
+    },
+    onClickEdit(id) {
+      // (수정을 위한)상세정보
+
+      // 1. 입력모드 설정
+      this.$store.dispatch('actDepartmentInputMode', 'update')
+
+      // 2. 상세정보 호출
+      this.$store.dispatch('actDepartmentInfo', id)
+
+      // 3. 모달 출력
+      this.$bvModal.show('modal-department-inform')
     }
   }
 }

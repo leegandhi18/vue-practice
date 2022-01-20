@@ -16,12 +16,16 @@ export default {
   state: {
     DepartmentList: [],
     Department: { ...stateInit.Department },
-    InsertedResult: null // 입력처리 후 결과
+    InsertedResult: null, // 입력처리 후 결과
+    UpdatedResult: null, // 수정처리 후 결과
+    InputMode: null // 입력모드(등록: insert, 수정: update)
   },
   getters: {
     DepartmentList: state => state.DepartmentList,
     Department: state => state.Department,
-    DepartmentInsertedResult: state => state.InsertedResult
+    DepartmentInsertedResult: state => state.InsertedResult,
+    DepartmentUpdatedResult: state => state.UpdatedResult,
+    DepartmentInputMode: state => state.InputMode
   },
   mutations: {
     setDepartmentList(state, data) {
@@ -32,6 +36,12 @@ export default {
     },
     setInsertedResult(state, data) {
       state.InsertedResult = data
+    },
+    setUpdatedResult(state, data) {
+      state.UpdatedResult = data
+    },
+    setInputMode(state, data) {
+      state.InputMode = data
     }
   },
   actions: {
@@ -68,6 +78,62 @@ export default {
       api.post('/serverApi/departments').then(response => {
         const insertedResult = response && response.insertedId
         context.commit('setInsertedResult', insertedResult)
+      })
+      */
+    },
+    // 부서정보 초기화
+    actDepartmentInit(context, payload) {
+      context.commit('setDepartment', { ...stateInit.Department })
+    },
+    // 입력모드 설정
+    actDepartmentInputMode(context, payload) {
+      context.commit('setInputMode', payload)
+    },
+    // 부서 상세정보 조회
+    actDepartmentInfo(context, payload) {
+      // 상태값 초기화
+      context.commit('setDepartment', { ...stateInit.Department })
+
+      /* 테스트 데이터 세팅 */
+      setTimeout(() => {
+        const departmentList = [
+          { id: 1, name: '개발팀', code: 'dev', description: '개발팀 테스트', createdAt: '2021-12-01T00:00:00.000Z' },
+          { id: 2, name: '영업팀', code: 'sales', description: '영업팀 테스트', createdAt: '2021-12-01T00:00:00.000Z' }
+        ]
+
+        let department = { ...stateInit.department }
+        for (let i = 0; i < departmentList.length; i += 1) {
+          if (payload === departmentList[i].id) {
+            department = { ...departmentList[i] }
+          }
+        }
+        context.commit('setDepartment', department)
+      }, 300)
+
+      /* RestAPI 호출 */
+      /*
+      api.get('/serverApi/departments/${payload}').then(response => {
+        const department = response && response.department
+        context.commit('setDepartment', department)
+      })
+      */
+    },
+    // 부서 수정
+    actDepartmentUpdate(context, payload) {
+      // 상태값 초기화
+      context.commit('setUpdatedResult', null)
+
+      /* 테스트 데이터 세팅 */
+      setTimeout(() => {
+        const updatedResult = 1
+        context.commit('setUpdatedResult', updatedResult)
+      }, 300) // state값의 변화를 감지하기 위하여 일부러 지연 시켰다.
+
+      /* RestAPI 호출 */
+      /*
+      api.put('/serverApi/departments/${payload}').then(response => {
+        const updatedResult = response && response.updatedCount
+        context.commit('setUpdatedResult', updatedResult)
       })
       */
     }
