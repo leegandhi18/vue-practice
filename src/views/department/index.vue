@@ -3,20 +3,30 @@
     <h1>부서 관리</h1>
     <div style="margin-bottom: 5px">
       <b-row>
-        <b-col style="text-align: left"
-          ><b-button variant="primary" size="sm" @click="searchDepartmentList">검색</b-button></b-col
-        >
-        <b-col style="text-align: right"><b-button variant="success" size="sm">신규등록</b-button></b-col>
+        <b-col style="text-align: left">
+          <b-button variant="primary" size="sm" @click="searchDepartmentList">검색</b-button>
+        </b-col>
+        <b-col style="text-align: right">
+          <b-button variant="success" size="sm" @click="onClickAddNew">신규등록</b-button>
+        </b-col>
       </b-row>
     </div>
     <div>
       <b-table small hover striped :items="departmentList" :fields="fields"></b-table>
     </div>
+
+    <!-- inform 영역 -->
+    <inform />
   </div>
 </template>
 
 <script>
+import inform from './inform.vue'
+
 export default {
+  components: {
+    inform: inform
+  },
   data() {
     return {
       fields: [
@@ -38,6 +48,10 @@ export default {
   methods: {
     searchDepartmentList() {
       this.$store.dispatch('actDepartmentList')
+    },
+    onClickAddNew() {
+      // 신규등록
+      this.$bvModal.show('modal-department-inform') // 모달을 띄운다.
     }
   }
 }

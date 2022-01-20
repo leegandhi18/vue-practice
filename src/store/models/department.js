@@ -1,15 +1,37 @@
 import api from '../apiUtil'
 
+// 초기값 선언
+const stateInit = {
+  Department: {
+    id: null,
+    name: null,
+    code: null,
+    description: null,
+    createdAt: null,
+    updatedAt: null
+  }
+}
+
 export default {
   state: {
-    DepartmentList: []
+    DepartmentList: [],
+    Department: { ...stateInit.Department },
+    InsertedResult: null // 입력처리 후 결과
   },
   getters: {
-    DepartmentList: state => state.DepartmentList
+    DepartmentList: state => state.DepartmentList,
+    Department: state => state.Department,
+    DepartmentInsertedResult: state => state.InsertedResult
   },
   mutations: {
     setDepartmentList(state, data) {
       state.DepartmentList = data
+    },
+    setDepartment(state, data) {
+      state.Department = data
+    },
+    setInsertedResult(state, data) {
+      state.InsertedResult = data
     }
   },
   actions: {
@@ -27,6 +49,25 @@ export default {
       api.get('/serverApi/departments').then(response => {
         const departmentList = response && response.data
         context.commit('setDepartmentList', departmentList)
+      })
+      */
+    },
+    // 부서 입력
+    actDepartmentInsert(context, payload) {
+      // 상태값 초기화
+      context.commit('setInsertedResult', null)
+
+      /* 테스트 데이터 세팅 */
+      setTimeout(() => {
+        const insertedResult = 1
+        context.commit('setInsertedResult', insertedResult)
+      }, 300) // state값의 변화를 감지하기 위하여 일부러 지연 시켰다.
+
+      /* RestAPI 호출 */
+      /*
+      api.post('/serverApi/departments').then(response => {
+        const insertedResult = response && response.insertedId
+        context.commit('setInsertedResult', insertedResult)
       })
       */
     }
