@@ -40,6 +40,36 @@ export default {
   computed: {
     departmentList() {
       return this.$store.getters.DepartmentList
+    },
+    insertedResult() {
+      return this.$store.getters.DepartmentInsertedResult
+    }
+  },
+  watch: {
+    insertedResult(value) {
+      // 등록 후 처리
+      if (value !== null) {
+        if (value > 0) {
+          // 등록이 성공한 경우
+
+          // 1. 메세지 출력
+          this.$bvToast.toast('등록 되었습니다.', {
+            title: 'SUCCESS',
+            variant: 'success',
+            solid: true
+          })
+
+          // 2. 리스트 재 검색
+          this.searchDepartmentList()
+        } else {
+          // 등록이 실패한 경우
+          this.$bvToast.toast('등록이 실패하였습니다.', {
+            title: 'ERROR',
+            variant: 'danger',
+            solid: true
+          })
+        }
+      }
     }
   },
   created() {
